@@ -99,7 +99,8 @@ int printDevices()
 int main()
 {
     printf("CUDA LDPC Decoder\r\nComputing...\r\n");
-    //printDevices();
+    printDevices();
+    printf("number of host CPUs:\t%d\n", omp_get_num_procs());
     cudaSetDevice(DEVICE_ID);
     runTest();
     return 0;
