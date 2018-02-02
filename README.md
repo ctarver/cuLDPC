@@ -78,7 +78,7 @@ When running ./app, it runs for a very long period of time. Looking at the nvidi
 ```
 
 
-The  console periodically updaets with somthing like:
+The  console periodically updates with somthing like:
 
 ```
 =================================
