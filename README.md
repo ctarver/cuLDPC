@@ -31,6 +31,80 @@ The code may not reflect all the optimizations in the paper, but it implemented 
 
 The code is provided as is, and it can be used for any purpose, e.g., studying LDPC decoding, perform LDPC-related research, and so on. If you use this code for your research, please cite the papers listed above. 
 
+## 2018 Revist
+In 2018, the code was revisited. It was reran on a system with the following specs:
+* Intel(R) Core(TM) i7-3930K CPU @ 3.20GHz
+* Ubuntu 16.04.3
+* Linux kernel 4.4.0-112
+* Cuda 9.1
+
+To get things to compile, I found that I needed to add -D_FORCE_INLINES on the nvcc commands in the Makefile. Otherwise, I would get an error saying that ‘memcpy’ was not declared in this scope while building.  
+
+### Build and Run Procedures
+cd into the src directory and run make
+After it finishes compliling, run ./app for the simulation to begin.
+
+### Running
+When running ./app, it runs for a very long period of time. Looking at the nvidia-smi command, it seems to be working on only 1 GPU. When looking at htop, the command seems to be saturating only 1 core of the CPU. The nvidia-smi output is below. 
+
+```
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 387.26                 Driver Version: 387.26                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX TITAN   Off  | 00000000:04:00.0 Off |                  N/A |
+| 36%   56C    P8    12W / 250W |     13MiB /  6082MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX TITAN   Off  | 00000000:05:00.0  On |                  N/A |
+| 35%   52C    P8    25W / 250W |    403MiB /  6079MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  GeForce GTX TITAN   Off  | 00000000:08:00.0 Off |                  N/A |
+| 30%   41C    P8    10W / 250W |     13MiB /  6082MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   3  GeForce GTX TITAN   Off  | 00000000:09:00.0 Off |                  N/A |
+| 58%   80C    P0   125W / 250W |    384MiB /  6082MiB |     93%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    1      3065      G   /usr/lib/xorg/Xorg                           235MiB |
+|    1      3826      G   compiz                                       152MiB |
+|    3     27200      C   ./app                                        371MiB |
++-----------------------------------------------------------------------------+
+```
+
+
+The  console periodically updaets with somthing like:
+
+```
+=================================
+GPU CUDA Demo
+SNR = 3.0 dB
+# codewords = 200960, # streams = 16, CW=2, MCW=40
+number of iterations = 0.0 
+CPU time: 12407.197266 ms, for 500 simulations.
+Throughput = 118.847145 Mbps
+Throughput (kernel only) = inf Mbps
+Throughput (kernel + transer time) = 24.122707 Mbps
+
+h2d (llr): size=0.737280 MB, bandwidthInMBs = 92.046425 MB/s
+d2h (hd): size=0.737280 MB, bandwidthInMBs = inf MB/s
+kernel time = 0.000000 ms 
+h2d time = 3819.404053 ms 
+d2h time = 0.000000 ms
+memset time = 1.062716 ms 
+time difference = 8586.730469 ms 
+# codewords = 12560, CW=2, MCW=40
+total bit error = 96000
+BER = 6.63e-03, FER = 6.37e+00
+
+=================================
+```
+
 ## License
     Copyright 2016 Guohui Wang
 
