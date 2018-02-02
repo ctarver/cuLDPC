@@ -14,6 +14,7 @@
                 4/20/2016 prepare for release on Github.
 */
 
+#include <omp.h> 
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
